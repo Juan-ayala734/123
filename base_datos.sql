@@ -68,3 +68,30 @@ FROM productos p
 INNER JOIN categorias c 
 ON p.categoria_id = c.id
 WHERE c.nombre_categoria = 'Accesorios';
+
+-- =====================================================
+-- REPORTES RELACIONALES AVANZADOS (Guía 11)
+-- =====================================================
+
+-- 1. Vista completa del inventario con categorías legibles
+
+SELECT p.id,
+       p.nombre_producto,
+       c.nombre_categoria,
+       p.stock,
+       p.precio
+FROM productos p
+INNER JOIN categorias c
+ON p.categoria_id = c.id;
+
+-- 2. Vista filtrada exclusivamente para el departamento de 'Accesorios'
+
+SELECT p.id,
+       p.nombre_producto,
+       c.nombre_categoria,
+       p.stock,
+       p.precio
+FROM productos p
+INNER JOIN categorias c
+ON p.categoria_id = c.id
+WHERE c.nombre_categoria = 'Accesorios';
