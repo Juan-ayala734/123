@@ -68,30 +68,26 @@ FROM productos p
 INNER JOIN categorias c 
 ON p.categoria_id = c.id
 WHERE c.nombre_categoria = 'Accesorios';
+-- ====================================================================
+-- CONSULTAS DE ESTADÍSTICAS Y MÉTRICAS PARA EL DASHBOARD (Guía 12)
+-- ====================================================================
 
--- =====================================================
--- REPORTES RELACIONALES AVANZADOS (Guía 11)
--- =====================================================
+-- Tarjeta 1: Total de artículos distintos en el catálogo
+SELECT COUNT(id) AS total_productos_catalogo
+FROM productos;
 
--- 1. Vista completa del inventario con categorías legibles
+-- Tarjeta 2: Valor económico total del inventario
+SELECT SUM(precio * stock) AS valor_monetario_inventario
+FROM productos;
 
-SELECT p.id,
-       p.nombre_producto,
-       c.nombre_categoria,
-       p.stock,
-       p.precio
-FROM productos p
-INNER JOIN categorias c
-ON p.categoria_id = c.id;
+-- Tarjeta 3: Precio del producto más caro del inventario
+SELECT MAX(precio) AS producto_mas_caro
+FROM productos;
 
--- 2. Vista filtrada exclusivamente para el departamento de 'Accesorios'
-
-SELECT p.id,
-       p.nombre_producto,
-       c.nombre_categoria,
-       p.stock,
-       p.precio
+-- Tarjeta 4: Existencias totales agrupadas por categoría
+SELECT c.nombre_categoria,
+       SUM(p.stock) AS existencias_totales
 FROM productos p
 INNER JOIN categorias c
 ON p.categoria_id = c.id
-WHERE c.nombre_categoria = 'Accesorios';
+GROUP BY c.nombre_categoria;
