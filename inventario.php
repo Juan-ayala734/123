@@ -24,23 +24,42 @@ $resultado = $conn->query($sql);
 <title>Inventario</title>
 
 <style>
+
 body{
     font-family: Arial, sans-serif;
+    background:#f4f6f9;
     padding:20px;
+}
+
+h2{
+    color:#1e293b;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
+    background:white;
+    margin-top:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 
-th, td{
-    border:1px solid #ccc;
-    padding:10px;
+th,td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:center;
 }
 
 th{
-    background:#f2f2f2;
+    background:#3b82f6;
+    color:white;
+}
+
+tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+tr:hover{
+    background:#eef6ff;
 }
 
 .stock-bajo{
@@ -48,8 +67,38 @@ th{
     font-weight:bold;
 }
 
+.btn-nuevo{
+    display:inline-block;
+    background:#3b82f6;
+    color:white;
+    padding:10px 15px;
+    text-decoration:none;
+    border-radius:5px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.btn-nuevo:hover{
+    background:#2563eb;
+}
+
+.btn-editar{
+    background:#f59e0b;
+    color:white;
+    padding:6px 12px;
+    text-decoration:none;
+    border-radius:4px;
+    font-size:13px;
+    font-weight:bold;
+    margin-right:5px;
+}
+
+.btn-editar:hover{
+    background:#d97706;
+}
+
 .btn-eliminar{
-    background-color:#ef4444;
+    background:#ef4444;
     color:white;
     padding:6px 12px;
     text-decoration:none;
@@ -59,25 +108,19 @@ th{
 }
 
 .btn-eliminar:hover{
-    background-color:#b91c1c;
+    background:#b91c1c;
 }
 
 </style>
 
 </head>
+
 <body>
 
 <h2>Catálogo de Inventario</h2>
-<a href="nuevo_producto.php"
-style="
-background:#3b82f6;
-color:white;
-padding:10px;
-text-decoration:none;
-border-radius:5px;">
 
-+ Nuevo Producto
-
+<a href="nuevo_producto.php" class="btn-nuevo">
+➕ Nuevo Producto
 </a>
 
 <p>
@@ -85,20 +128,26 @@ Usuario:
 <strong><?php echo $_SESSION['nombre']; ?></strong>
 </p>
 
+<p>
 <a href="logout.php">Cerrar Sesión</a>
-
-<br><br>
+</p>
 
 <table>
 
+<thead>
+
 <tr>
-<th>Código</th>
-<th>Producto</th>
-<th>Categoría</th>
-<th>Stock</th>
-<th>Precio</th>
-<th>Acciones</th>
+    <th>Código</th>
+    <th>Producto</th>
+    <th>Categoría</th>
+    <th>Stock</th>
+    <th>Precio</th>
+    <th>Acciones</th>
 </tr>
+
+</thead>
+
+<tbody>
 
 <?php
 
@@ -106,29 +155,39 @@ if($resultado->num_rows > 0){
 
     while($fila = $resultado->fetch_assoc()){
 
-        $claseStock = ($fila['stock'] < 10) ? 'stock-bajo' : '';
+        $claseStock = ($fila['stock'] < 10) ? "stock-bajo" : "";
 
 ?>
 
 <tr>
-<td><?php echo $fila['id']; ?></td>
-<td><?php echo $fila['nombre_producto']; ?></td>
-<td><?php echo $fila['nombre_categoria']; ?></td>
-<td class="<?php echo $claseStock; ?>">
-    <?php echo $fila['stock']; ?>
-</td>
-<td>$<?php echo number_format($fila['precio'],2); ?></td>
+
+    <td><?php echo $fila['id']; ?></td>
+
+    <td><?php echo $fila['nombre_producto']; ?></td>
+
+    <td><?php echo $fila['nombre_categoria']; ?></td>
+
+    <td class="<?php echo $claseStock; ?>">
+        <?php echo $fila['stock']; ?>
+    </td>
+
+    <td>
+        $<?php echo number_format($fila['precio'],2); ?>
+    </td>
+
+    <td>
+        <a href="editar_producto.php?id=<?php echo $fila['id']; ?>" class="btn-editar">
+            ✏️ Editar
+        </a>
+
+        <a href="eliminar_producto.php?id=<?php echo $fila['id']; ?>"
+        class="btn-eliminar"
+        onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
+            🗑️ Eliminar
+        </a>
+    </td>
+
 </tr>
-<td>
-    <a
-    href="eliminar_producto.php?id=<?php echo $fila['id']; ?>"
-    class="btn-eliminar"
-    onclick="return confirm('¿Estás seguro de eliminar el producto: <?php echo $fila['nombre_producto']; ?>?');">
-
-    🗑️ Eliminar
-
-    </a>
-</td>
 
 <?php
 
@@ -139,18 +198,20 @@ if($resultado->num_rows > 0){
 ?>
 
 <tr>
-<td colspan="5">
-No hay productos registrados.
-</td>
+    <td colspan="6">
+        No hay productos registrados.
+    </td>
 </tr>
 
-<?php } ?>
+<?php
+
+}
+
+?>
+
+</tbody>
 
 </table>
-
-<?php
-$resultado->free();
-?>
 
 </body>
 </html>
