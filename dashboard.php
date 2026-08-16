@@ -157,6 +157,10 @@ $<?php echo number_format($precio_maximo,2); ?>
 📦 Inventario
 </a>
 
+<a href="proveedores.php" class="modulo" style="background:#8b5cf6;">
+🚚 Módulo de Proveedores
+</a>
+
 <a href="#" class="modulo" style="background:#64748b;">
 🛒 Punto de Venta
 </a>
