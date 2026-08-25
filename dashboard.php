@@ -161,6 +161,10 @@ $<?php echo number_format($precio_maximo,2); ?>
 🚚 Módulo de Proveedores
 </a>
 
+<a href="nueva_compra.php" class="modulo" style="background:#10b981;">
+📥 Registrar Compra
+</a>
+
 <a href="#" class="modulo" style="background:#64748b;">
 🛒 Punto de Venta
 </a>
