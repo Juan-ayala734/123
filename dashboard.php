@@ -169,6 +169,10 @@ $<?php echo number_format($precio_maximo,2); ?>
 🛒 Punto de Venta
 </a>
 
+<a href="historial_compras.php" class="modulo" style="background:#f59e0b;">
+📜 Historial de Compras
+</a>
+
 </div>
 
 </body>
